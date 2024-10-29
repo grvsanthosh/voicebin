@@ -13,8 +13,8 @@ router.use('/users', UserRoutes);
 router.use('/admin', AdminRoutes);
 
 
-router.get('/',(req,res)=>{
-    res.send(`<h1>Home page</h1>`);
-})
+// router.get('/',(req,res)=>{
+//     res.send(`<h1>Home page</h1>`);
+// })
 
 export default router;

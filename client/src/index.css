@@ -1,0 +1,64 @@
+body {
+  /* fallback for old browsers */
+  /* background-color: #6a11cb; */
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  /* background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1)); */
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+ 
+}
+
+.home-wrapper{
+  display: flex;
+  flex-direction: column;
+}
+
+.card-wrapper{
+  margin: 20px auto 20px auto;
+}
+
+.profile{
+  border-radius: 50%;
+}
+
+.profile-wrapper{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content:start;
+  padding: 10px;
+}
+
+.profile-heading-wrapper{
+  margin-left: 10px;
+  
+}
+
+.create-wrapper{
+  background-color: #020304 !important;
+  padding: 20px;
+  border-radius: 5px;
+  margin-top: 20px;
+  width:65vw;
+}
+
+.form-wrapper{
+display: flex;
+flex-direction: column;
+  margin-bottom: 10px;
+  align-items: center;
+  justify-content:center
+}
+
+.form-file{
+background-color: #020304;
+
+}
+
+.close-button-wrapper{
+  display:flex;
+  margin-left: 360px;
+  align-items: center;
+}

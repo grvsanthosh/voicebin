@@ -81,7 +81,7 @@ const userAccess = async (req,res,next) => {
             }      
             else{
                 res.status(403).send({
-                    message: "Access denied for Admin to perform editing..."
+                    message: "Forbidden..."
                 })
             }
             
@@ -110,6 +110,11 @@ const allBlogAccess = async (req,res,next)=>{
             
             if(user && payload.role === user.role){
                 next();
+            }
+            else {
+                res.status(403).send({
+                    message: "Forbidden..."
+                })
             }
         }
         else{

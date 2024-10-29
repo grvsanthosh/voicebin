@@ -45,11 +45,9 @@ const approvedblogs = async (req,res)=>{
     }   
 }
 
-
-
 const getBlogsByuserId = async (req,res)=>{
     try{
-        let userId = await req.params.userid;      
+        let userId = await req.params.userid; 
         if(userId === req.headers.userId){
         let blogs = await blogsModel.aggregate([
             {
@@ -79,28 +77,56 @@ const getBlogsByuserId = async (req,res)=>{
                   }
               }
           ]);  
-        if(blogs.length){
-           let userBlog = blogs.map((e)=>{
-                return e
-            })
-            
-            res.status(200).send({
-                "message":"Blogs retrieved successfully",
-                data:userBlog
-            });
+            if(blogs.length){
+            let userBlog = blogs.map((e)=>{
+                    return e
+                })
+                
+                res.status(200).send({
+                    "message":"Blogs retrieved successfully",
+                    data:userBlog
+                });
+            }
+            else{
+                res.status(404).send({
+                    "message":"No blogs found for this user",
+                });
+            }
         }
         else{
-            res.status(404).send({
-                "message":"No blogs found for this user",
+            res.status(403).send({
+                message: "Your user name did not match"
             });
         }
+
     }
-    else{
-        res.status(403).send({
-            message: "Your user name did not match"
+    catch(err){
+        res.status(500).send({
+            "message": err.message,
+            err
         });
     }
+}
 
+const deleteBlogById = async(req,res)=>{
+    try{
+        let blogId = await req.params.blogid;
+        let userId = await req.headers.userId;
+        let blog = await blogsModel.findOne({blogId: blogId})
+        if(userId === blog.userId){
+            await blogsModel.deleteOne({blogId: blogId});
+            res.status(200).send({
+                "message":"Blog deleted successfully"
+                
+            })
+        }
+        else{
+            res.status(403).send({
+                "message": "Your user name did not match"
+            });
+        }
+       
+        
     }
     catch(err){
         res.status(500).send({
@@ -145,8 +171,8 @@ const createBlog = async (req,res)=>{
 
 const search = async (req,res)=>{
     try{
-            let title = req.body.title;            
-            // let blog = await blogsModel.find({$or:[{title:{$regex:title,$options :'i'}},{description:{$regex:title,$options :'i'}}]})
+            let title = req.params.search;            
+            
             let blog = await blogsModel.aggregate([
                 {
                   
@@ -201,4 +227,4 @@ const search = async (req,res)=>{
 }
 
 
-export default {approvedblogs,getBlogsByuserId,createBlog,search}
+export default {approvedblogs,getBlogsByuserId,deleteBlogById,createBlog,search}

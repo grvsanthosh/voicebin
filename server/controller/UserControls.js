@@ -5,7 +5,7 @@ import { randstring } from '../common/helper.js';
 const editprofile = async(req,res)=>{
     try{
         
-        let currentUserName = await UserModel.findOne({userId:req.params.editprofile},{password:0,_id:0});        
+        let currentUserName = await UserModel.findOne({userId:req.params.userid},{password:0,_id:0,status:0,role:0});   
         let currentUserId = currentUserName.userId;
         if(currentUserId === req.headers.userId){
             let presentUserName = await UserModel.find({userName:req.body.userName},{password:0});
@@ -92,14 +92,23 @@ const login = async(req,res)=>{
                 let token = await auth.createToken(payload);
                 res.status(201).send({
                     message:"Login successful",
-                    token
+                    token:token,
+                    role: user.role,
+                    userId: user.userId
+
                 })
 
             }
+            else{
+                res.status(401).send({
+                    message: "Invalid User name or password",
+                    
+                })
+            }
         }
         else{
-            res.status(404).send({
-                message: "User not found",
+            res.status(401).send({
+                message: "Invalid User name or password",
                 
             })
 
@@ -110,16 +119,37 @@ const login = async(req,res)=>{
     }
 }
 
+const getProfileById = async (req,res)=>{
+    try{
+        let user = await UserModel.findOne({userId:req.params.userid},{password:0,_id:0,userId:0,status:0,role:0});
+        if(user){
+            res.status(200).send({
+                message: "User found successfully",
+                data: user
+            })
+        }
+        else{
+            res.status(404).send({message: "User not found"})
+        }
+    }
+    catch(error){
+        res.status(500).send({
+            message: error.message||"internal server error",
+            
+        })
+    }
+}
+
 const removeaccount = async(req,res)=>{
     try{
-        let currentUserName = await UserModel.findOne({userId:req.params.removeaccount},{password:0});        
+        let currentUserName = await UserModel.findOne({userId:req.params.userid},{password:0});        
         let currentUserId = currentUserName.userId;
         
         if(currentUserId === req.headers.userId){
             
                 let validUser = await UserModel.find({role:"User"})
                if((validUser.length - 1)>0){
-                    await UserModel.deleteOne({userId:req.params.removeaccount})
+                    await UserModel.deleteOne({userId:req.params.userid})
                     res.status(201).send({
                     message:"Deleted User account",
                     data:currentUserName
@@ -146,4 +176,4 @@ const removeaccount = async(req,res)=>{
     }
 }
 
-export default {editprofile,removeaccount,signup,login}
+export default {editprofile,getProfileById,removeaccount,signup,login}
