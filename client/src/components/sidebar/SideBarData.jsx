@@ -1,11 +1,10 @@
 import React from 'react'
 import { MDBIcon } from 'mdb-react-ui-kit';
-import {  IoIosPaper } from "react-icons/io"
+import {  IoIosPaper } from "react-icons/io";
 import { FaCrown,FaDove,FaEarthAsia,FaUser,FaDoorOpen,FaRegEnvelope,FaSearchengin } from "react-icons/fa6";
 
 
-export const SideBarData = [
-  
+export const SideBarData = [  
     {
         title: "World",
         path: "/blogfeeds",
@@ -14,8 +13,6 @@ export const SideBarData = [
         cNav: 'current-nav',
         role:["User", "Admin"]
     },
-
-//*********for user*********//
     {
         title: "Post",
         path: "/createblogs",
@@ -48,10 +45,6 @@ export const SideBarData = [
         cNav: 'current-nav',
         role:["User"]
     },
-//*********for user*********//
-
-//*********for Admin*********//
-
     {
         title: "Blog status",
         path: "/blogstatus",
@@ -59,8 +52,7 @@ export const SideBarData = [
         cName: 'nav-text',
         cNav: 'current-nav',
         role:["Admin"]
-    },
-     
+    },     
     {
         title: "Admins",
         path: "/getalladmin",
@@ -77,19 +69,12 @@ export const SideBarData = [
         cNav: 'current-nav',
         role:["Admin"]
     },
-   
-    
-   
-
-//*********for Admin*********//
-
-{
+    {
     title: "Logout",
     path: "/logout" ,
     icon: <FaDoorOpen />,        
     cName: 'nav-text',
     cNav: 'current-nav',
-    role:["User", "Admin"]
-}
-   
+    role:["User","Admin"]
+    }   
 ]
