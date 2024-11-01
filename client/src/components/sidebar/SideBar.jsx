@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { Link,useLocation } from 'react-router-dom'
 import {FaBars} from 'react-icons/fa'
 import { AiOutlineClose } from 'react-icons/ai'
-import { SidebarData } from './SidebarData'
+import { SideBarData } from './SidebarData'
 import { IconContext } from 'react-icons/lib'
 import "./SideBar.css"
 
@@ -34,7 +34,7 @@ const Navbar = () => {
                         </Link>
                      </li>
                      {
-                         SidebarData.map((item, index) => {
+                         SideBarData.map((item, index) => {
                             if(item.role.includes(role) && item.path === pathname){
                              return (
                                         <li key={index} className={item.cNav}>

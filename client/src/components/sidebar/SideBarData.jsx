@@ -4,21 +4,21 @@ import {  IoIosPaper } from "react-icons/io"
 import { FaCrown,FaDove,FaEarthAsia,FaUser,FaDoorOpen,FaRegEnvelope,FaSearchengin } from "react-icons/fa6";
 
 
-export const SidebarData = [
+export const SideBarData = [
   
     {
         title: "World",
-        path: "/blogfeeds" ,
+        path: "/blogfeeds",
         icon: <FaEarthAsia />,        
         cName: 'nav-text',
         cNav: 'current-nav',
-        role:["User", "Admin"],
+        role:["User", "Admin"]
     },
 
 //*********for user*********//
     {
         title: "Post",
-        path: "/createblogs" ,
+        path: "/createblogs",
         icon: <FaDove />,        
         cName: 'nav-text',
         cNav: 'current-nav',
@@ -34,7 +34,7 @@ export const SidebarData = [
     },
     {
         title: "Search",
-        path: "/searchblogs" ,
+        path: "/searchblogs",
         icon: <FaSearchengin />,        
         cName: 'nav-text',
         cNav: 'current-nav',
@@ -42,7 +42,7 @@ export const SidebarData = [
     },
     {
         title: "Settings",
-        path: "/profilesettings" ,
+        path: "/profilesettings",
         icon: <MDBIcon fas icon="cog" />,        
         cName: 'nav-text',
         cNav: 'current-nav',
@@ -54,7 +54,7 @@ export const SidebarData = [
 
     {
         title: "Blog status",
-        path: "/blogstatus" ,
+        path: "/blogstatus",
         icon: <IoIosPaper />,
         cName: 'nav-text',
         cNav: 'current-nav',
@@ -63,7 +63,7 @@ export const SidebarData = [
      
     {
         title: "Admins",
-        path: "/getalladmin" ,
+        path: "/getalladmin",
         icon: <FaCrown />,
         cName: 'nav-text',
         cNav: 'current-nav',
@@ -71,7 +71,7 @@ export const SidebarData = [
     },
     {
         title: "Users",
-        path: "/getallusers" ,
+        path: "/getallusers",
         icon: <FaUser />,
         cName: 'nav-text',
         cNav: 'current-nav',
@@ -89,7 +89,7 @@ export const SidebarData = [
     icon: <FaDoorOpen />,        
     cName: 'nav-text',
     cNav: 'current-nav',
-    role:["User", "Admin"],
+    role:["User", "Admin"]
 }
    
 ]
