@@ -45,14 +45,14 @@ export default {
         path:'/admin/blog/all',
         auth:true
     },
-    ADMIN_PENDING_BLOGS :{
-        path:'/admin/blog/pendingblogs',
+    FETCH_BLOG_BY_STATUS :{
+        path:'/admin/blog/fetchblogstatus',
         auth:true
     },
-    ADMIN_REJECTED_BLOGS :{
-        path:'/admin/blog/rejectedblogs',
-        auth:true
-    },
+    // ADMIN_REJECTED_BLOGS :{
+    //     path:'/admin/blog/rejectedblogs',
+    //     auth:true
+    // },
     ADMIN_GET_ALL_USERS :{
         path:'/admin/users',
         auth:true
@@ -62,19 +62,19 @@ export default {
         auth:true
     },
     ADMIN_PROVIDE_ADMIN_ACCESS :{
-        path:'/admin/user/:adminaccess ',
+        path:'/admin/user/adminaccess',
         auth:true
     },
     ADMIN_REVOKE_ADMIN_ACCESS :{
-        path:'/admin/:revokeaccess ',
+        path:'/admin/revokeaccess',
         auth:true
     },
     ADMIN_APPROVE_BLOGS :{
-        path:'/admin/blog/:approveblog ',
+        path:'/admin/blog/approve',
         auth:true
     },
     ADMIN_REMOVE_ADMIN_ACCOUNT :{
-        path:'/admin/:removeadmin',
+        path:'/admin/removeadmin',
         auth:true
     },
 

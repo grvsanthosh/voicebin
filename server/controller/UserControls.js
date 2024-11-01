@@ -4,50 +4,64 @@ import { randstring } from '../common/helper.js';
 
 const editprofile = async(req,res)=>{
     try{
-        
-        let currentUserName = await UserModel.findOne({userId:req.params.userid},{password:0,_id:0,status:0,role:0});   
-        let currentUserId = currentUserName.userId;
-        if(currentUserId === req.headers.userId){
-            let presentUserName = await UserModel.find({userName:req.body.userName},{password:0});
-            
-            let data = presentUserName.map((e)=>{
-                
-                if(e._id.toString() !== currentUserId)
-                {   
-                    
-                    return -1
-                }
-                return 1
-                
-            })   
-            
-            if(data){
-                currentUserName.firstName = req.body.firstName;
-                currentUserName.lastName = req.body.lastName;
-                currentUserName.email = req.body.email;
-                currentUserName.mobile = req.body.mobile;
-                currentUserName.userName = req.body.userName;
-                await currentUserName.save();
-                res.status(200).send({
-                    message: "profile edited successfully",
-                    data: currentUserName
+        let paramUser = await UserModel.findOne({userId:req.params.userid},{password:0,status:0,role:0});   
+        let paramUserId = paramUser.userId;
+        let data = req.body.userName;
+        let userData = await validate(data)
+        if((userData.validateUsercount === 0) || (userData.validateUserName[0].userId === paramUserId)){
+            paramUser.firstName = req.body.firstName;
+            paramUser.lastName = req.body.lastName;
+            paramUser.email = req.body.email;
+            paramUser.mobile = req.body.mobile;
+            paramUser.userName = req.body.userName;
+            await paramUser.save();
+            res.status(200).send({
+                message: "Profile updated successfully",
+                data: paramUser
             })
-            }
-            else{
-                res.status(400).send({
-                    message: "User with same user name already exists",
-                })
-            }
         }
+        // else if(userData.validateUserName[0].userId === paramUserId ){
+        //     paramUser.firstName = req.body.firstName;
+        //     paramUser.lastName = req.body.lastName;
+        //     paramUser.email = req.body.email;
+        //     paramUser.mobile = req.body.mobile;
+        //     paramUser.userName = req.body.userName;
+        //     await paramUser.save();
+        //     res.status(200).send({
+        //         message: "Profile updated successfully",
+        //         data: paramUser
+        //     })
+        // }
         else{
-            res.status(404).send({message: "Your user name did not match"})
+            res.status(400).send({
+                message: "User already exists",
+                
+            })
         }
-        
-    }
+
+    }        
     catch(error){
-        res.status(500).send({message: "Invalid user name"})
+        res.status(500).send({
+            message: error.message||"internal server error",
+            
+        })
     }
 }
+
+const validate = async(data)=>{
+    try{
+        let validateUsercount = await UserModel.find({userName:data},{password:0}).countDocuments();
+        let validateUserName = await UserModel.find({userName:data},{password:0});        
+        return {validateUserName,validateUsercount};        
+    }
+
+    catch(error){
+        console.error(error);
+        return false;
+    }
+    
+}
+
 
 const signup = async(req,res)=>{
     try{
@@ -70,7 +84,10 @@ const signup = async(req,res)=>{
         }
     }
     catch(error){
-        res.status(400).send({message: error.message})
+        res.status(500).send({
+            message: error.message||"internal server error",
+            
+        })
     }
 
 }
@@ -115,7 +132,10 @@ const login = async(req,res)=>{
         }
     }
     catch(error){
-
+        res.status(500).send({
+            message: error.message||"internal server error",
+            
+        })
     }
 }
 

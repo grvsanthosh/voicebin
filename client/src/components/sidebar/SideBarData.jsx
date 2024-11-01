@@ -1,8 +1,7 @@
 import React from 'react'
-import {   FaCartPlus, FaEnvelopeOpenText } from 'react-icons/fa'
-import {  AiFillHome } from 'react-icons/ai'
-import {  IoIosPaper, IoMdHelpCircle, IoMdPeople } from "react-icons/io"
-
+import { MDBIcon } from 'mdb-react-ui-kit';
+import {  IoIosPaper } from "react-icons/io"
+import { FaCrown,FaDove,FaEarthAsia,FaUser,FaDoorOpen,FaRegEnvelope,FaSearchengin } from "react-icons/fa6";
 
 
 export const SidebarData = [
@@ -10,15 +9,17 @@ export const SidebarData = [
     {
         title: "World",
         path: "/blogfeeds" ,
-        icon: <AiFillHome />,        
+        icon: <FaEarthAsia />,        
         cName: 'nav-text',
         cNav: 'current-nav',
         role:["User", "Admin"],
     },
+
+//*********for user*********//
     {
         title: "Post",
         path: "/createblogs" ,
-        icon: <AiFillHome />,        
+        icon: <FaDove />,        
         cName: 'nav-text',
         cNav: 'current-nav',
         role:["User"]
@@ -26,7 +27,7 @@ export const SidebarData = [
     {
         title: "My Post",
         path: "/myblogs" ,
-        icon: <AiFillHome />,        
+        icon: <FaRegEnvelope />,        
         cName: 'nav-text',
         cNav: 'current-nav',
         role:["User"]
@@ -34,7 +35,7 @@ export const SidebarData = [
     {
         title: "Search",
         path: "/searchblogs" ,
-        icon: <AiFillHome />,        
+        icon: <FaSearchengin />,        
         cName: 'nav-text',
         cNav: 'current-nav',
         role:["User"]
@@ -42,27 +43,53 @@ export const SidebarData = [
     {
         title: "Settings",
         path: "/profilesettings" ,
-        icon: <AiFillHome />,        
+        icon: <MDBIcon fas icon="cog" />,        
         cName: 'nav-text',
         cNav: 'current-nav',
         role:["User"]
     },
+//*********for user*********//
+
+//*********for Admin*********//
 
     {
-        title: "Approve",
-        path: "/approveblogs" ,
+        title: "Blog status",
+        path: "/blogstatus" ,
         icon: <IoIosPaper />,
         cName: 'nav-text',
         cNav: 'current-nav',
         role:["Admin"]
     },
+     
     {
-        title: "Logout",
-        path: "/logout" ,
-        icon: <AiFillHome />,        
+        title: "Admins",
+        path: "/getalladmin" ,
+        icon: <FaCrown />,
         cName: 'nav-text',
         cNav: 'current-nav',
-        role:["User", "Admin"],
-    }
+        role:["Admin"]
+    },
+    {
+        title: "Users",
+        path: "/getallusers" ,
+        icon: <FaUser />,
+        cName: 'nav-text',
+        cNav: 'current-nav',
+        role:["Admin"]
+    },
+   
+    
+   
+
+//*********for Admin*********//
+
+{
+    title: "Logout",
+    path: "/logout" ,
+    icon: <FaDoorOpen />,        
+    cName: 'nav-text',
+    cNav: 'current-nav',
+    role:["User", "Admin"],
+}
    
 ]

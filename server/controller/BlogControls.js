@@ -171,7 +171,7 @@ const createBlog = async (req,res)=>{
 
 const search = async (req,res)=>{
     try{
-            let title = req.params.search;            
+            let search = req.params.search;            
             
             let blog = await blogsModel.aggregate([
                 {
@@ -196,7 +196,7 @@ const search = async (req,res)=>{
                 {$unwind:'$userName'},
                 {
                       $match:{
-                        $and:[{status:'Approved'},{$or:[{title:{$regex:title,$options :'i'}},{description:{$regex:title,$options :'i'}}]}]                       
+                        $and:[{status:'Approved'},{$or:[{title:{$regex:search,$options :'i'}},{description:{$regex:search,$options :'i'}}]}]                       
                           
                       }
                   }

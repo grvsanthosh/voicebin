@@ -42,6 +42,7 @@ const adminAccess = async (req,res,next) => {
             let user = await UserModel.findById(payload._id);
 
             if(user && payload.role === "Admin" && user.role === payload.role && payload._id === user._id.toString()){
+                req.headers.userId = payload.userId;
                 next();
             }      
             else{

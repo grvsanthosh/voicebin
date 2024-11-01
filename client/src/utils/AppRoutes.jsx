@@ -19,15 +19,10 @@ import ProfileSettings from '../components/user/profile/ProfileSettings.jsx'
 //*******************user components*******************//
 
 //*******************Admin components*******************//
-import ApproveBlogs from '../components/admin/blog/ApproveBlogs.jsx'
-import GetAllBlogs from '../components/admin/blog/GetAllBlogs.jsx';
-import PendingBlogs from '../components/admin/blog/PendingBlogs.jsx'
-import RejectedBlogs from '../components/admin/blog/RejectedBlogs.jsx'
-import AdminAccess from '../components/admin/profile/AdminAccess.jsx'
+
+import BlogStatus from '../components/admin/blog/BlogStatus.jsx';
 import GetAllAdmin from '../components/admin/profile/GetAllAdmin.jsx'
 import GetAllUsers from '../components/admin/profile/GetAllUsers.jsx'
-import RemoveAdmin from '../components/admin/profile/RemoveAdmin.jsx'
-import RevokeAccess from '../components/admin/profile/RevokeAccess.jsx'
 
 //*******************Admin components*******************//
 export default [
@@ -81,44 +76,19 @@ export default [
 
     //*******************Admin routes*******************//
 
+   
     {
-        path:'/approveblogs',
-        element:<ProtectedRoute><AdminGaurd><ApproveBlogs/></AdminGaurd></ProtectedRoute>
-    },  
-    {
-        path:'/getallblogs',
-        element:<ProtectedRoute><AdminGaurd><GetAllBlogs/></AdminGaurd></ProtectedRoute>
-    }, 
-    {
-        path:'/pendingblogs',
-        element:<ProtectedRoute><AdminGaurd><PendingBlogs/></AdminGaurd></ProtectedRoute>
-    }, 
-    {
-        path:'/rejectedblogs',
-        element:<ProtectedRoute><AdminGaurd><RejectedBlogs/></AdminGaurd></ProtectedRoute>
-    }, 
-    {
-        path:'/adminaccess',
-        element:<ProtectedRoute><AdminGaurd><AdminAccess/></AdminGaurd></ProtectedRoute>
+        path:'/blogstatus',
+        element:<ProtectedRoute><AdminGaurd><SideBar/><BlogStatus/></AdminGaurd></ProtectedRoute>
     }, 
     {
         path:'/getalladmin',
-        element:<ProtectedRoute><AdminGaurd><GetAllAdmin/></AdminGaurd></ProtectedRoute>
+        element:<ProtectedRoute><AdminGaurd><SideBar/><GetAllAdmin/></AdminGaurd></ProtectedRoute>
     }, 
     {
         path:'/getallusers',
-        element:<ProtectedRoute><AdminGaurd><GetAllUsers/></AdminGaurd></ProtectedRoute>
+        element:<ProtectedRoute><AdminGaurd><SideBar/><GetAllUsers/></AdminGaurd></ProtectedRoute>
     }, 
-    {
-        path:'/removeadmin',
-        element:<ProtectedRoute><AdminGaurd><RemoveAdmin/></AdminGaurd></ProtectedRoute>
-    }, 
-    {
-        path:'/revokeaccess',
-        element:<ProtectedRoute><AdminGaurd><RevokeAccess/></AdminGaurd></ProtectedRoute>
-    },  
-   
-
     //*******************Admin routes*******************//
 
     {

@@ -13,8 +13,8 @@ export default function App() {
       <div className='text-white text-center'>
         <h1 className='mb-3'>Logout</h1>
         <h5 className='mb-4'>Do you need to logout?</h5>
-        <MDBBtn onClick={()=>{logout()}} className="me-3">YES</MDBBtn>
-        <MDBBtn onClick={()=>{navigate('/blogfeeds')}} className="me-1">NO</MDBBtn>            
+        <MDBBtn color='dark' style={{fontWeight:"bold"}} onClick={()=>{logout()}} className="me-3">YES</MDBBtn>
+        <MDBBtn color='dark' style={{fontWeight:"bold"}} onClick={()=>{navigate('/blogfeeds')}} className="me-1">NO</MDBBtn>            
       </div>
     </div>
   </div>

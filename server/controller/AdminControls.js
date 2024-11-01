@@ -1,6 +1,7 @@
 import userModel from '../model/UserModel.js'
 import blogsModel from '../model/BlogModel.js';
 
+const statusCheck = ["Approved","Rejected","Pending"]
 const getAllUsers = async(req,res)=>{
     try{
         let user = await userModel.find({role:"User"},{password:0,_id:0});
@@ -37,7 +38,7 @@ const getAllAdmins = async(req,res)=>{
 
 const adminaccess = async(req,res)=>{
     try{
-        let user = await userModel.findOne({userId:req.params.adminaccess});
+        let user = await userModel.findOne({userId:req.body.userid});
 
         if(user){
             if(user.role!=="Admin"){
@@ -72,7 +73,7 @@ const adminaccess = async(req,res)=>{
 const revokeaccess = async(req,res)=>{
     try{
 
-        let user = await userModel.findOne({userId:req.params.revokeaccess});
+        let user = await userModel.findOne({userId:req.body.userId});
 
         if(user){
             if(user.role==="Admin"){
@@ -80,11 +81,11 @@ const revokeaccess = async(req,res)=>{
                 
                 if((validAdmin.length - 1)>0){
                     user.role = "User";
-                await user.save();
-                res.status(201).send({
-                    message:"Revoked admin access",
-                    data: user
-                })
+                    await user.save();
+                    res.status(201).send({
+                        message:"Revoked admin access",
+                        data: user
+                    })
                 }
                 else{
                     res.status(400).send({
@@ -115,26 +116,23 @@ const revokeaccess = async(req,res)=>{
 
 const removeadmin = async(req,res)=>{
     try{
-
-        let user = await userModel.findOne({userId:req.params.removeadmin});
+        let user = await userModel.findOne({userId:req.params.userid});
        
         if(user){
             if(user.role==="Admin"){
                 let validAdmin = await userModel.find({role:"Admin"})
-               if((validAdmin.length - 1)>0){
-                await userModel.deleteOne({userId:req.params.removeadmin})
-                res.status(201).send({
-                    message:"Deleted Admin account",
-                    data:user
-                })
-               }
+                if((validAdmin.length - 1)>0){
+                        await userModel.deleteOne({userId:req.params.userid})
+                        res.status(201).send({
+                            message:"Deleted Admin account",
+                            data:user
+                        })
+                }
                 else{
                     res.status(400).send({
                         message:"Cannot delete last admin account",
                     })
                 }
-                
-                
             }
             else{
                 res.status(400).send({
@@ -158,7 +156,7 @@ const removeadmin = async(req,res)=>{
 
 const approveblog = async (req,res)=>{
     try{
-        let blogId = await blogsModel.findOne({blogId:req.params.approveblog});
+        let blogId = await blogsModel.findOne({blogId:req.body.blogId});
         if(blogId){
             blogId.status = req.body.status;
             await blogId.save();
@@ -182,36 +180,61 @@ const approveblog = async (req,res)=>{
     }
 }
 
-const getAllBlogs = async (req,res)=>{
-
+const BlogSearch = async (req,res)=>{
+    
     try{
-        let blogs = await blogsModel.aggregate([
-            {
-              
-              $lookup:{
-                      from:'users',
-                      localField:'userId',
-                      foreignField:'userId',
-                      as:'userDetails'
-                  }
-              },
-            {
-                  $project:{
-                      title:1,
-                      image:1,
-                      description:1,
-                      blogId:1,
-                      status:1,
-                      userName:'$userDetails.userName'
-                  }
-              },
-            {$unwind:'$userName'}
-            
-          ]);
-        res.status(200).send({
-            "message":"getAllBlogs is successful",
-            data:blogs
-        })
+        let status = req.params.status
+        let search = req.params.search
+    
+        if(statusCheck.includes(status) && search !== ":search"){
+            let blogs = await blogsModel.aggregate([
+                {
+                  
+                  $lookup:{
+                          from:'users',
+                          localField:'userId',
+                          foreignField:'userId',
+                          as:'userDetails'
+                      }
+                  },
+                {
+                      $project:{
+                          title:1,
+                          image:1,
+                          description:1,
+                          blogId:1,
+                          status:1,
+                          userName:'$userDetails.userName'
+                      }
+                  },
+                {$unwind:'$userName'},
+                {
+                    $match:{
+                      $and:[{status:status},{$or:[{title:{$regex:search,$options :'i'}},{description:{$regex:search,$options :'i'}}]}]                       
+                        
+                    }
+                }
+                
+              ]);
+            if(blogs.length){
+                res.status(200).send({
+                    "message":"successful",
+                    data:blogs
+                })
+            }
+            else{
+                res.status(404).send({
+                    "message":"No blogs found"
+                });
+            }
+        }
+        else{
+            res.status(404).send({
+                "message":"Invalid status or search options"
+            });
+        }
+       
+        
     }
     catch(err){
         res.status(500).send({
@@ -221,41 +244,55 @@ const getAllBlogs = async (req,res)=>{
     }   
 }
 
-const pendingblogs = async (req,res)=>{
-
+const fetchBlogByStatus = async (req,res)=>{
+    
     try{
-        let blogs = await blogsModel.aggregate([
-            {
-              
-              $lookup:{
-                      from:'users',
-                      localField:'userId',
-                      foreignField:'userId',
-                      as:'userDetails'
+        let status = req.params.status
+        if(statusCheck.includes(status)){
+            let blogs = await blogsModel.aggregate([
+                {
+                  
+                  $lookup:{
+                          from:'users',
+                          localField:'userId',
+                          foreignField:'userId',
+                          as:'userDetails'
+                      }
+                  },
+                {
+                      $project:{
+                          title:1,
+                          image:1,
+                          description:1,
+                          blogId:1,
+                          status:1,
+                          userName:'$userDetails.userName'
+                      }
+                  },
+                {$unwind:'$userName'},
+                {
+                      $match:{
+                          status:status
+                      }
                   }
-              },
-            {
-                  $project:{
-                      title:1,
-                      image:1,
-                      description:1,
-                      blogId:1,
-                      status:1,
-                      userName:'$userDetails.userName'
-                  }
-              },
-            {$unwind:'$userName'},
-            {
-                  $match:{
-                      status:'Pending'
-                  }
-              }
-          ]);
-
-        res.status(200).send({
-            "message":"Get all Pending blog is successful",
-            data:blogs
-        })
+            ]);
+            if(blogs.length){
+                res.status(200).send({
+                    "message":"successful",
+                    data:blogs
+                })
+            }
+            else{
+                res.status(404).send({
+                    "message":"No blogs found"
+                });
+            }  
+        }
+        else{
+            res.status(404).send({
+                "message":"Select valid status"
+            });
+        }
     }
     catch(err){
         res.status(500).send({
@@ -265,48 +302,6 @@ const pendingblogs = async (req,res)=>{
     }   
 }
 
-const rejectedblogs = async (req,res)=>{
 
-    try{
-        let blogs = await blogsModel.aggregate([
-            {
-              
-              $lookup:{
-                      from:'users',
-                      localField:'userId',
-                      foreignField:'userId',
-                      as:'userDetails'
-                  }
-              },
-            {
-                  $project:{
-                      title:1,
-                      image:1,
-                      description:1,
-                      blogId:1,
-                      status:1,
-                      userName:'$userDetails.userName'
-                  }
-              },
-            {$unwind:'$userName'},
-            {
-                  $match:{
-                      status:'Rejected'
-                  }
-              }
-          ]);
 
-        res.status(200).send({
-            "message":"Get all Rejected blog is successful",
-            data:blogs
-        })
-    }
-    catch(err){
-        res.status(500).send({
-            "message": err.message,
-            err
-        });
-    }   
-}
-
-export default {getAllUsers,getAllAdmins,adminaccess,revokeaccess,removeadmin,approveblog,getAllBlogs,pendingblogs,rejectedblogs}
+export default {getAllUsers,getAllAdmins,adminaccess,revokeaccess,removeadmin,approveblog,BlogSearch,fetchBlogByStatus}

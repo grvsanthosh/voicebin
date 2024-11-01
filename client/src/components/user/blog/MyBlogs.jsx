@@ -55,7 +55,14 @@ function MyBlogs() {
      }    
     }
     catch(error){
+      if(error.status===401){
+        toast.error(error.data.message || "internal server error")
+        setTimeout(()=>{window.location.assign('/home')},2000)
+      }
+      else{
       toast.error(error.data.message || "internal server error")
+    }
+
     }
   }
 
@@ -67,43 +74,43 @@ function MyBlogs() {
   return (
     <div className='home-wrapper'>
       
-      {
-          myBlogs.map((e,i)=>{
-            return (     
-              <div className='card-wrapper' key={i}>       
-                <MDBCard style={{ width: '40rem' }}>
-                  <div className='d-inline-flex justify-content-start'>
-                    <div className='profile-wrapper'>
-                      <img alt="profile" src={profile} height="50px" width="50px" className='profile'/>
-                      <h5 className='profile-heading-wrapper fst-italic'>{e.userName?e.userName:'User name'}</h5>
-                      {
-                        statusText.map((item,index)=>{
-                          if(item.status===e.status){
-                              <span key={index} className={`badge rounded-pill bg-${item.variant} text-light`}>{item.status}</span>
-                          }
-                          else{
-                              <span className="badge rounded-pill bg-secondary text-light">Unknown</span>
-                          }
-                          })	
-                      }
-                    </div>
-                    <div className="close-button-wrapper">
-                      <MDBIcon type="button" fas icon="trash" size='2x'  onClick={()=>{handleDelete(e.blogId)}}/>
-                    </div>
+    {
+        myBlogs.map((e,i)=>{
+          return (     
+            <div className='card-wrapper' key={i}>       
+              <MDBCard style={{ width: '40rem',padding:"5px"}}>
+                <div className='card-topbar'>
+                  <div className='card-topbar-profile'>
+                    <img alt="profile" src={profile} height="50px" width="50px" className='profile'/>
+                    <h5 className='profile-heading-wrapper fst-italic'>{e.userName?e.userName:'User name'}</h5>
                   </div>
-                  <MDBCardImage src={e.image?e.image:placeholder} position='top' alt='...' />
-                  <MDBCardBody>
-                      <MDBCardTitle className="text-center fs-1 fw-bold">{e.title?e.title:"Title Goes Here"}</MDBCardTitle>
-                      <MDBCardText className="fs-3 fst-italic">{e.description?e.description:dummyText}</MDBCardText>
-                  </MDBCardBody>
-                </MDBCard>
-             </div>
-            )  
-          })
-      }
-      
-    </div>
+                  <div className="card-topbar-status">
+                  {
+                      statusText.map((item,index)=>{
+                        if(item.status===e.status){
+                           return <span key={index} className={`badge rounded-pill bg-${item.variant} text-light`}>{item.status}</span>
+                        }
+                       
+                        })	
+                  }
+                  </div>
+                  <div className="card-topbar-end">
+                    <h5 className='profile-heading-wrapper fst-italic'>Delete</h5>
+                    <MDBIcon type="button" fas icon="trash" style={{color:"red"}} size='2x'  onClick={()=>{handleDelete(e.blogId)}}/>
+                  </div>
+                </div>
+                <MDBCardImage src={e.image?e.image:placeholder} position='top' alt='...' />
+                <MDBCardBody>
+                    <MDBCardTitle className="text-center fs-1 fw-bold">{e.title?e.title:"Title Goes Here"}</MDBCardTitle>
+                    <MDBCardText className="fs-3 fst-italic">{e.description?e.description:dummyText}</MDBCardText>
+                </MDBCardBody>
+              </MDBCard>
+           </div>
+          )  
+        })
+    }
     
+  </div>
   )
 }
 

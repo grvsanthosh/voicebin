@@ -14,7 +14,13 @@ function Blogfeeds() {
       setglobalFeed(data)
     }
     catch(error){
+      if(error.status===401){
+        toast.error(error.data.message || "internal server error")
+        setTimeout(()=>{window.location.assign('/home')},2000)
+      }
+      else{
       toast.error(error.data.message || "internal server error")
+      }
     }
   }
 

@@ -22,8 +22,13 @@ function CreateBlogs() {
         toast.error("Image size is too large. Please choose an image less than 2MB")
         
       }
+      else if(error.status===401){
+        toast.error(error.data.message || "internal server error")
+        setTimeout(()=>{window.location.assign('/home')},2000)
+      }
       else{
         toast.error(error.data.message || "internal server error")
+      
       }
     
     }

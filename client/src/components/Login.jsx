@@ -30,12 +30,14 @@ function Login() {
       toast.success(message)
       navigate('/blogfeeds')
     }
-    catch(error){
-      let status = error.status;
-      if(status === 401){
+    catch(error){      
+      if(error.status===401){
         toast.error(error.data.message || "internal server error")
+        setTimeout(()=>{window.location.assign('/home')},2000)
       }
-      setTimeout(()=>{window.location.assign('/home')},2000)
+      else{
+      toast.error(error.data.message || "internal server error")
+      }
      
     }
   }
@@ -53,8 +55,8 @@ function Login() {
               <h2 className="fw-bold mb-2 text-mixedcase" style={{cursor:"pointer"}} onClick={()=>{navigate('/home')}}>VoiceBin</h2>
               <p className="text-white-50 mb-5">Let the world listen to you...</p>
 
-              <MDBInput wrapperClass='mb-4 mx-5 w-100' labelClass='text-white' label='User name' id='formControlLg' type='username' size="lg" onChange={(e)=>{setUserName(e.target.value)}}/>
-              <MDBInput wrapperClass='mb-4 mx-5 w-100' labelClass='text-white' label='Password' id='formControlLg' type='password' size="lg" onChange={(e)=>{setPassword(e.target.value)}}/>
+              <MDBInput style={{color:"white"}} wrapperClass='mb-4 mx-5 w-100' labelClass='text-white' label='User name' id='formControlLg' type='username' size="lg" onChange={(e)=>{setUserName(e.target.value)}}/>
+              <MDBInput style={{color:"white"}} wrapperClass='mb-4 mx-5 w-100' labelClass='text-white' label='Password' id='formControlLg' type='password' size="lg" onChange={(e)=>{setPassword(e.target.value)}}/>
 
               <p className="small mb-3 pb-lg-2"><a className="text-white-50" href="#!">Forgot password?</a></p>
               <MDBBtn outline className='mx-2 px-5' color='white' size='lg' onClick={handlesubmit}>
