@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { Link,useLocation } from 'react-router-dom'
 import {FaBars} from 'react-icons/fa'
 import { AiOutlineClose } from 'react-icons/ai'
-import { SidebarData } from './SidebarData.jsx'
+import { SidebarData } from 'SideBarData.jsx'
 import { IconContext } from 'react-icons/lib'
 import "./SideBar.css"
 
