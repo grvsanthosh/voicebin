@@ -1,26 +1,45 @@
 # voicebin application 
 
-# Admin task and access : 
+    Voicebin blog application is developed with motive of sharing daily news, latest styles, DIY projects and many more.. which user wants, the world to listen to their post.
 
-Admin has following access - accessExpriration, adminAccess
+## Admin role:
 
- 1. Blog approval task. /admin/blog/:approveblog (blogId)
- 2. Access to view all approval pending blogs. /admin/blog/pendingblogs
- 3. Access to view all rejected blogs. /admin/blog/rejectedblogs
- 4. Access to view all blogs. /admin/blog/all
- 5. Access to view all users in application. /admin/users
- 6. Access to view all Admins in application. /admin/admins
- 7. To provide admin access to new users. /admin/user/:adminaccess (userId)
- 8. To revoke admin access to any admin account. /admin/:revokeaccess (userId)
- 9. Access to remove admin account. /admin/:removeadmin (userId)
- 
- # User task and access : 
+Admin has access expiration and admin access protected routes.
+middleware->accessExpriration
+middleware->adminAccess
 
- Use has following access - userAccess
+    1. World: This tab displays all approved blogs posted by users around the world. (home page)
 
- 1. Report all blogs for own Id - /blogs/:id (userId)
- 2. Home feed for blogs that are approved by admin - /blogs/approvedblogs
- 3. Search for any blog globally - /blogs/search
- 4. Create a new blog post - /blogs
- 5. personalize their profile ID - /users/:editprofile (userName)
- 6. Permission to remove their profile account - /users/:removeaccount (userId)
+    2. Blog status: This tab contains dropdown for blog (pending,approved,rejected) status and searchbar for finding blogs in each mentioned category. Admin need to review the blogs and use approving options (tick-approve,hand-pending,cross-reject) to change the blog status. Only approved blogs goes to world.
+
+    3. Admins: This tab allows all admins to view other admin accounts. It contains,
+                (i) revoke admin access - Toggle to remove admin access and move them to users. (Windows confirmation display added)
+               (ii) remove admin account - Delete button to remove inactive admin accounts.(Windows confirmation display added)
+
+    4. Users:   This tab allows all admins to view active users of voicebin blog app. It contains,
+                (i) grant admin access - Toggle to provide admin access and add them to admin list.(Windows confirmation display added)
+    
+    5. Logout: This tab allows admins to logout from their account and navigate to voicebin home page.(confirmation prompt added)
+
+### Admin credentials
+
+    username: admin
+    password:admin123
+
+#### User role:
+
+User has user access protected routes.
+middleware->userAccess
+
+    1.World: This tab displays all approved blogs posted by users around the world. (home page)
+
+    2.Post: This tab allows users to create a new blog post with title, description and image. It also contains preview for view post before sending for approval.
+
+    3.My Post: This tab displays all blog posts created by individual users irrespective of blog status. It also contains option to delete the blog post with window confirmation prompt.
+
+    4.Search: Unlike World tab. This search tab contains search bar options allowing users to find specific blog posts and read them. It contains only approved blog posts.
+
+    5.Settings: This tab contains user setting options to edit user details including login username (unique). 
+
+    6.Logout: This tab allows users to logout from their account and navigate to voicebin home page.(confirmation prompt added)
+
